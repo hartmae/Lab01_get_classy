@@ -10,6 +10,11 @@ public class Product {
     private String ID;
     private double cost;
 
+    public static final int NAME_LENGTH = 35;
+    public static final int DESCRIPTION_LENGTH = 75;
+    public static final int ID_LENGTH = 6;
+    public static final int RECORD_SIZE = (NAME_LENGTH + DESCRIPTION_LENGTH + ID_LENGTH) * 2 + 8;
+
     /**
      * Constructor with all fields
      * @param name Product name
@@ -119,6 +124,37 @@ public class Product {
                 Objects.equals(name, product.name) &&
                 Objects.equals(description, product.description) &&
                 Objects.equals(ID, product.ID);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, description, ID, cost);
+    }
+
+    private static String padString(String str, int length) {
+        if (str == null) {
+            str = "";
+        }
+        if (str.length() >= length) {
+            return str.substring(0, length);
+        }
+        StringBuilder sb = new StringBuilder(str);
+        while (sb.length() < length) {
+            sb.append(' ');
+        }
+        return sb.toString();
+    }
+
+    public String getPaddedName() {
+        return padString(name, NAME_LENGTH);
+    }
+
+    public String getPaddedDescription() {
+        return padString(description, DESCRIPTION_LENGTH);
+    }
+
+    public String getPaddedID() {
+        return padString(ID, ID_LENGTH);
     }
 
 }
